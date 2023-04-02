@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  assignment3:
+    build: ./
+    command: ./assignment3
+    ports:
+     - 8080:8080
+    environment:
+      - DB_URL=db:5432
+    networks:
+      - my-network
+networks:
+  my-network:
+    external: true
+
