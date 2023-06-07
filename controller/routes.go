@@ -7,7 +7,7 @@ import (
 
 func Start(controller *Controller) error {
 	router := mux.NewRouter()
-	router.HandleFunc("", controller.Start)
+	router.HandleFunc("/", controller.Start)
 	// get list of all books and create book
 	router.HandleFunc("/books", controller.HandleBooks)
 	// get, update, delete book information
