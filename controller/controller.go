@@ -25,7 +25,7 @@ func NewController(db *gorm.DB) *Controller {
 }
 
 func (c *Controller) Start(w http.ResponseWriter, r *http.Request) {
-	response(w, http.StatusOK, map[string]string{"message": "Hello, World!"})
+	fmt.Fprint(w, "Hello, World!")
 }
 
 func (c *Controller) HandleBooks(w http.ResponseWriter, r *http.Request) {
