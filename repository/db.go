@@ -36,10 +36,6 @@ func (r *Repository) GetById(id int) (*model.Book, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = res.Scan(&book.Id, &book.Title, &book.Description, &book.Cost)
-	if err != nil {
-		return nil, err
-	}
 	return &book, nil
 }
 func (r *Repository) CreateBook(book *model.Book) error {
