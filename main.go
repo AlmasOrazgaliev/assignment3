@@ -10,7 +10,7 @@ import (
 
 func main() {
 	db, err := gorm.Open(
-		postgres.Open("host=db port=5432 user=postgres password=alma45884 dbname=library sslmode=disable"),
+		postgres.Open("host=dpg-ci04ksd269v5qbksrnmg-a port=5432 user=kbtugophers_user password=3Hql6UTpXqgK26RMsYfUTeV4fBBv8R4M dbname=kbtugophers_db sslmode=disable"),
 		&gorm.Config{})
 	db.AutoMigrate(&model.Book{})
 	if err != nil {

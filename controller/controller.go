@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/AlmasOrazgaliev/assignment3/model"
 	"github.com/AlmasOrazgaliev/assignment3/repository"
@@ -26,6 +27,7 @@ func NewController(db *gorm.DB) *Controller {
 func (c *Controller) HandleBooks(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		res, err := c.repository.GetBooks()
+
 		if err != nil {
 			errResponse(w, http.StatusInternalServerError, err)
 			return
@@ -58,6 +60,9 @@ func (c *Controller) HandleBookById(w http.ResponseWriter, r *http.Request) {
 		errResponse(w, http.StatusBadRequest, err)
 		return
 	}
+	if book == nil {
+		errResponse(w, http.StatusNoContent, errors.New("no such book"))
+	}
 	if r.Method == "GET" {
 		response(w, http.StatusOK, book)
 	} else if r.Method == "DELETE" {
@@ -81,15 +86,16 @@ func (c *Controller) HandleBookById(w http.ResponseWriter, r *http.Request) {
 		}
 		response(w, http.StatusCreated, nil)
 	}
-
 }
 
 func (c *Controller) HandleSearch(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("ahghjklln")
 	title := r.URL.Query().Get("title")
 	fmt.Println(r.URL.Query())
 	fmt.Println(title)
 	books, err := c.repository.SelectByTitle(title)
+	if len(*books) == 0 {
+		err = errors.New("no such book")
+	}
 	if err != nil {
 		errResponse(w, http.StatusInternalServerError, err)
 		return

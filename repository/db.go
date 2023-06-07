@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"errors"
 	"github.com/AlmasOrazgaliev/assignment3/model"
 	"gorm.io/gorm"
 	"strings"
@@ -26,9 +27,16 @@ func (r *Repository) GetBooks() (*[]model.Book, error) {
 }
 
 func (r *Repository) GetById(id int) (*model.Book, error) {
-	res := r.DB.First(&model.Book{}, id).Row()
+	res := r.DB.First(&model.Book{}, id)
+	if res.RowsAffected == 0 {
+		return nil, errors.New("no such book")
+	}
 	var book model.Book
-	err := res.Scan(&book.Id, &book.Title, &book.Description, &book.Cost)
+	err := res.Error
+	if err != nil {
+		return nil, err
+	}
+	err = res.Scan(&book.Id, &book.Title, &book.Description, &book.Cost)
 	if err != nil {
 		return nil, err
 	}
