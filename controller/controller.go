@@ -24,6 +24,10 @@ func NewController(db *gorm.DB) *Controller {
 	}
 }
 
+func (c *Controller) Start(w http.ResponseWriter, r *http.Request) {
+	response(w, http.StatusOK, map[string]string{"message": "Hello, World!"})
+}
+
 func (c *Controller) HandleBooks(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		res, err := c.repository.GetBooks()
